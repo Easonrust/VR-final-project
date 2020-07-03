@@ -33,7 +33,7 @@ public class TheEnemy : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        
+        NMA.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
         if (!NMA.pathPending && NMA.enabled)
         {
             if (NMA.remainingDistance <= 4.5f)
