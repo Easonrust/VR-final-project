@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public static float move_velocity = 5.0f;
+
     public Button TheButton;
 
     public static int LIFE = 10;
