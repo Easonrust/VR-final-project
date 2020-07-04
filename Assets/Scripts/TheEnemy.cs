@@ -9,6 +9,12 @@ public class TheEnemy : MonoBehaviour {
     public int HP = 1;
     public Animator animator;
 
+
+	[SerializeField] 
+	public Transform fireballPrefab;
+
+	public int firetimes=0;
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -50,6 +56,26 @@ public class TheEnemy : MonoBehaviour {
                 }
             }
         }
+
+
+		Ray ray = new Ray(transform.position,transform.forward);//向前面发射一条射线
+		RaycastHit hit;
+		if(Physics.SphereCast(ray,0.5f,out hit))
+		{
+			GameObject hitObject = hit.transform.gameObject;
+			if(hitObject.layer==8)//检测是否时玩家
+			{
+				if (firetimes <= 0) {
+					Object fireball = Instantiate (fireballPrefab, transform.position, transform.rotation);
+					firetimes += 1;
+					Debug.Log(firetimes);
+					Debug.Log("hit");
+				}
+
+
+			}
+
+		}
 
         
     }

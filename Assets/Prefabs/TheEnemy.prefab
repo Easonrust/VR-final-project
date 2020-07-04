@@ -1301,6 +1301,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NMA: {fileID: 195000010559066668}
   HP: 1
+  animator: {fileID: 0}
+  fireballPrefab: {fileID: 4000012447083418, guid: a97c2d4821660264d9f31e17de5f8b5b,
+    type: 2}
+  firetimes: 0
 --- !u!137 &137000010107533904
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
