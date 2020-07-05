@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Fire : MonoBehaviour {
-	public float speed = 4.0f;
+	public float speed = 8.0f;
 	public int damage = 5;
 	// Use this for initialization
 	void Start () {
@@ -13,11 +13,9 @@ public class Fire : MonoBehaviour {
 	void Update () {
 		transform.Translate(0,0,speed*Time.deltaTime);
 	}
-	private void OnTriggerEnter(BoxCollider collision){
-		Debug.Log ("ha");
-		if (collision.gameObject.layer == 8) {
+	private void OnTriggerEnter(Collider collision){
+		if (collision.gameObject.tag == "Player") {
 			GameManager.LIFE--;
-			Debug.Log ("haha");
 			Destroy (gameObject);
 		}
 	}

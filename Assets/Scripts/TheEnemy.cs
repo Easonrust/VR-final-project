@@ -6,7 +6,7 @@ public class TheEnemy : MonoBehaviour {
     [SerializeField]
     private NavMeshAgent NMA;
 
-    public int HP = 1;
+    public float HP = 1.0f;
     public Animator animator;
 
 
@@ -18,9 +18,15 @@ public class TheEnemy : MonoBehaviour {
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+
+        Vector3 direct2player = GameObject.FindGameObjectWithTag("Player").transform.position - gameObject.transform.position;
+        direct2player = direct2player.normalized;
+        Vector3 ballPos = new Vector3(transform.position.x, GameObject.FindGameObjectWithTag("Player").transform.position.y, transform.position.z);
+        Object fireball = Instantiate(fireballPrefab, ballPos, Quaternion.LookRotation(direct2player));
+
     }
-    
-    public void TakeDamage(int dmg)
+
+    public void TakeDamage(float dmg)
     {
         HP -= dmg;
         if(HP <= 0)
@@ -39,9 +45,13 @@ public class TheEnemy : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        NMA.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+        if (NMA.enabled)
+        {
+            NMA.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+        }
         if (!NMA.pathPending && NMA.enabled)
         {
+            
             if (NMA.remainingDistance <= 4.5f)
             {
                 animator.SetTrigger("Attack");
@@ -57,27 +67,6 @@ public class TheEnemy : MonoBehaviour {
             }
         }
 
-
-		Ray ray = new Ray(transform.position,transform.forward);//向前面发射一条射线
-		RaycastHit hit;
-		if(Physics.SphereCast(ray,0.5f,out hit))
-		{
-			GameObject hitObject = hit.transform.gameObject;
-			if(hitObject.layer==8)//检测是否时玩家
-			{
-				if (firetimes <= 0) {
-					Object fireball = Instantiate (fireballPrefab, transform.position, transform.rotation);
-					firetimes += 1;
-					Debug.Log(firetimes);
-					Debug.Log("hit");
-				}
-
-
-			}
-
-		}
-
-        
     }
     
 }

@@ -12,11 +12,12 @@ public class LesserSpawner : MonoBehaviour {
     private bool foo = false;
 
 	void Start () {
-        if(LR == null)
+
+        if (LR == null)
         {
             LR = GetComponent<LineRenderer>();
         }
-        gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        //gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
     }
 
     void Update()
@@ -31,6 +32,7 @@ public class LesserSpawner : MonoBehaviour {
                 foo = false;
             }
         }
+
     }
 
     public void Shoot(Vector3 position)

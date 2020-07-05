@@ -57,7 +57,7 @@ public class GvrReticle : MonoBehaviour, IGvrGazePointer {
 
     public LesserSpawner LS;
 
-    public float time = 0.6f;
+    public float time = 1.0f;
     private float timer = 0;
 
     private bool chargeTrigger = false;
@@ -155,8 +155,9 @@ public class GvrReticle : MonoBehaviour, IGvrGazePointer {
                     Bomb2.Play();
                 }
                 Handheld.Vibrate();
-                targetObject.GetComponent<TheEnemy>().TakeDamage(1);
+                targetObject.GetComponent<TheEnemy>().TakeDamage(GameManager.DAMAGE_VALUE[GameManager.damage_level]);
                 GameManager.KILLS++;
+                GameManager.MONEY += 5;
             }
         }
   }

@@ -7,6 +7,20 @@ public class GameManager : MonoBehaviour {
 
     public static float move_velocity = 5.0f;
 
+    public static int speed_level = 0;
+    public static int damage_level = 0;
+    public static float[] DAMAGE_VALUE = { 1, 1.5f, 2, 3, 5, 8 };
+    public static int[] DAMAGE_PRICE = { 5, 10, 250, 500, 800, 1500 };
+    public static float[] SPEED_VALUE = { 1.5f, 1.2f, 1.0f, 0.8f, 0.6f, 0.4f };
+    public static int[] SPEED_PRICE = { 100, 200, 500, 800, 1200, 2000 };
+    public Color[] LESSER_COLOR;
+    public Color[] GUN_COLOR;
+    public Text damageValueText;
+    public Text damagePriceText;
+    public Text speedValueText;
+    public Text speedPriceText;
+
+
     public Button TheButton;
 
     public static int LIFE = 10;
@@ -46,8 +60,49 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        
+        GvrViewer.Instance.VRModeEnabled = !GvrViewer.Instance.VRModeEnabled;
+        LESSER_COLOR = new Color[6];
+        LESSER_COLOR[0] = new Color(0.823529411765f, 0.873529411765f, 0.823529411765f, 1f);
+        LESSER_COLOR[1] = new Color(0.2f, 1f, 0.270588235294f, 1f);
+        LESSER_COLOR[2] = new Color(0.376470588235f, 0.972549019608f, 1f, 1f);
+        LESSER_COLOR[3] = new Color(0.701960784314f, 0.227450980392f, 1f, 1f);
+        LESSER_COLOR[4] = new Color(1f, 0.823529411765f, 0.360784313725f, 1f);
+        LESSER_COLOR[5] = new Color(1f, 0.376470588235f, 0.388235294118f, 1f);
+        GUN_COLOR = new Color[6];
+        GUN_COLOR[0] = new Color(0.9215294f, 0.9215294f, 0.9215294f);
+        GUN_COLOR[1] = new Color(0f, 1.492f, 0.3510663f);
+        GUN_COLOR[2] = new Color(0f, 1.306786f, 1.492f);
+        GUN_COLOR[3] = new Color(0.730566f, 0f, 1.492f);
+        GUN_COLOR[4] = new Color(1.492f, 0.7099862f, 0f);
+        GUN_COLOR[5] = new Color(1.492f, 0f, 0f);
+        GameObject.FindGameObjectWithTag("Lesser").gameObject.GetComponent<Renderer>().material.SetColor("_Color", LESSER_COLOR[damage_level]);
+        GameObject.FindGameObjectWithTag("Gun").gameObject.GetComponent<Renderer>().materials[1].SetColor("_EmissionColor", GUN_COLOR[damage_level]);
+
     }
+
+    public void BuyDamage()
+    {
+        if(MONEY >= DAMAGE_PRICE[damage_level])
+        {
+            MONEY -= DAMAGE_PRICE[damage_level];
+            damage_level++;
+            Debug.Log(LESSER_COLOR[damage_level]);
+            Debug.Log(new Color(0.2f, 1f, 0.270588235294f, 1f));
+            GameObject.FindGameObjectWithTag("Lesser").gameObject.GetComponent<Renderer>().material.SetColor("_Color", LESSER_COLOR[damage_level]);
+            GameObject.FindGameObjectWithTag("Gun").gameObject.GetComponent<Renderer>().materials[1].SetColor("_EmissionColor", GUN_COLOR[damage_level]);
+
+        }
+    }
+
+    public void BuySpeed()
+    {
+        if (MONEY >= SPEED_PRICE[speed_level])
+        {
+            MONEY -= SPEED_PRICE[speed_level];
+            speed_level++;
+        }
+    }
+
 
     void UpdateText()
     {
@@ -55,6 +110,10 @@ public class GameManager : MonoBehaviour {
         WaveText.text = "" + WAVE;
         KillText.text = "" + KILLS;
         EnemyText.text = EnemyManager.ENEMY_LIMIT + "/" + EnemyLimit;
+        speedValueText.text = "" + SPEED_VALUE[speed_level];
+        speedPriceText.text = "" + SPEED_PRICE[speed_level];
+        damageValueText.text = "" + DAMAGE_VALUE[damage_level];
+        damagePriceText.text = "" + DAMAGE_PRICE[damage_level];
     }
 
     void IfGameOver()
